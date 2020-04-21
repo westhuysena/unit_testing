@@ -1,20 +1,21 @@
-version: 2
+version: 2.1
+
+orbs:
+  python: circleci/python@0.2.1
+
 jobs:
-  run_tests:
-    docker:
-      - image: circleci/python/3.7.4
-    stages:
+  build-and-test:
+    executor: python/default
+    steps:
       - checkout
+      - python/load-cache
+      - python/install-deps
+      - python/save-cache
       - run:
-          name: Run Unit Tests
-          command: |
-            pytest --junitxml=test-reports/junit.xml --html=test-reports/pytest_report.html --self-contained-html
-      - store_test_results:
-          path: test-reports
-      - store_artifacts:
-          path: test-reports
+          command: ./manage.py test
+          name: Test
 
 workflows:
-  build_test:
+  main:
     jobs:
-      - run_tests
+      - build-and-test
