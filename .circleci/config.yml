@@ -27,8 +27,14 @@ jobs:
           name: Test
       - store_test_results:
           path: test-reports
+      #- store_artifacts:
+      #    path: test-reports
       - store_artifacts:
-          path: test-reports
+          path: /tmp/artifact-1
+          destination: artifact-file
+
+      - store_artifacts:
+          path: /tmp/artifacts
 
 workflows:
   main:
