@@ -17,8 +17,7 @@ jobs:
     docker:
       - image: circleci/python:3.6.4
     steps:
-      - python/load-cache
-#      - python/install-deps
+      - python/install-deps
       - run:
           name: Test
           command: python -m pytest -v --junit-xml=test-reports/junit.xml
