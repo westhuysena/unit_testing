@@ -24,7 +24,7 @@ jobs:
     steps:
       - checkout                # These repeated steps are needed because the two jobs are independent.
       - attach_workspace:
-           at: myworkspace
+           at: my_workspace
       #- python/install-deps     # Can be avoided by passing a workspace from the build job to the test job.
       - run:
           name: Test
