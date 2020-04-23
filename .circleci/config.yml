@@ -16,6 +16,7 @@ jobs:
       - python/install-deps     # Orb pre-defined step: Installs app dependencies (e.g. Python packages) listed in requirements.txt
       - python/save-cache       # Orb pre-defined step: Saves build results in cache for the next iteration of the build job.
       - run: mkdir -p my_workspace
+      - run: ls
       - persist_to_workspace:
            root: my_workspace
   test:
