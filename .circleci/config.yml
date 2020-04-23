@@ -15,12 +15,17 @@ jobs:
       - python/load-cache       # Orb pre-defined step: Loads cached results from the previous iteration of the build job (saves time).
       - python/install-deps     # Orb pre-defined step: Installs app dependencies (e.g. Python packages) listed in requirements.txt
       - python/save-cache       # Orb pre-defined step: Saves build results in cache for the next iteration of the build job.
+      - run: mkdir -p my_workspace
+      - persist_to_workspace:
+           root: my_workspace
   test:
     docker:
       - image: circleci/python:3.6.4
     steps:
       - checkout                # These repeated steps are needed because the two jobs are independent.
-      - python/install-deps     # Can be avoided by passing a workspace from the build job to the test job.
+      - attach_workspace:
+           at: myworkspace
+      #- python/install-deps     # Can be avoided by passing a workspace from the build job to the test job.
       - run:
           name: Test
           command: python -m pytest -v --junit-xml=test-reports/junit.xml
