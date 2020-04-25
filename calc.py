@@ -18,3 +18,7 @@ def divide(x, y):
    if y == 0:
       raise ValueError('Cannot divide by zero!')
    return x / y
+
+print('Hello from calc!')
+print('1 + 1 = '+str(add(1,1)))
+print('1 - 1 = '+str(subtract(1,1)))
