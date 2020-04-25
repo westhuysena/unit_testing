@@ -24,8 +24,8 @@ jobs:
           command: |
             . calc_env/bin/activate
             python test_calc.py
-      - setup_remote_docker:
-          docker_layer_caching: true
+      - setup_remote_docker
+          #docker_layer_caching: true     # This option is not included in the circleci free tier :(
       - run:
           name: Build and push Docker image
           command: |
