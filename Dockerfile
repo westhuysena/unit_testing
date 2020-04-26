@@ -8,5 +8,6 @@ WORKDIR /opt/calc/
 COPY requirements.txt .
 COPY dist/calc /opt/calc/
 
+CMD [ "ls" ]
 CMD [ "./calc" ]
 #CMD [ "echo", "./calc", ">", "calc_out.txt"]
