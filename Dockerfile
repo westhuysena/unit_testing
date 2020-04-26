@@ -10,4 +10,3 @@ COPY dist/calc /opt/calc/
 
 CMD [ "./calc" ]
 #CMD [ "echo", "./calc", ">", "calc_out.txt"]
-CMD [ "echo", "$PWD", ">", "calc_out.txt"]
