@@ -22,3 +22,8 @@ def divide(x, y):
 print('Hello from calc!')
 print('1 + 1 = '+str(add(1,1)))
 print('1 - 1 = '+str(subtract(1,1)))
+
+# Export to csv
+ofile = open("/opt/calc/log.txt","w")  
+ofile.write("Executed successfully!")
+ofile.close() 
