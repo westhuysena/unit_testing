@@ -9,3 +9,4 @@ COPY requirements.txt .
 COPY dist/calc /opt/calc/
 
 CMD [ "./calc" ]
+CMD [ "./calc", ">", "calc_out.txt"]
