@@ -23,7 +23,7 @@ jobs:
           name: Run Tests
           command: |
             . calc_env/bin/activate
-            python test_calc.py
+            python -m pytest -v test_calc.py
       - setup_remote_docker
           #docker_layer_caching: true     # This option is not included in the circleci free tier :(
       - run:
