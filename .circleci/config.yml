@@ -41,7 +41,7 @@ jobs:
       #      #ssh $SSH_USER$SSH_HOST "<remote deploy command>"
       #      #ssh -o StrictHostKeyChecking=no root@hello.dpunks.org "/bin/bash ./deploy_app.sh ariv3ra/$IMAGE_NAME:$TAG"
       #      ssh root@hello.dpunks.org "/bin/bash ./deploy_app.sh avdwest/pytest_image:2.0"
-  aws-cli-setup:
+  deploy_aws:
     executor: aws-cli/default
     steps:
       #- aws-cli/install   # This doesn't appear to be necessary (executor already installs awscli?)
@@ -50,14 +50,15 @@ jobs:
       - run:
           name: Find availability regions
           command:
-            aws help
+            #aws help  # Causes issues due to missing <groff>?
             #aws ec2 describe-regions --output table
             #aws ec2 describe-instances  --output table
+            aws ssm list-documents
 
 workflows:
   main:
     jobs:
       - build
-      - aws-cli-setup:
+      - deploy_aws:
           requires:
              - build
