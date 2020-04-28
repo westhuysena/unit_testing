@@ -49,10 +49,10 @@ jobs:
           profile-name: default
       - run:
           name: Find availability regions
-          command: |
-            aws ec2 describe-regions --output table
+          command:
+            #aws ec2 describe-regions --output table
             aws ec2 describe-instances  --output table
-            aws ssm help
+            #aws ssm help
 
 workflows:
   main:
