@@ -44,15 +44,15 @@ jobs:
   aws-cli-setup:
     executor: aws-cli/default
     steps:
-      #- aws-cli/install
+      #- aws-cli/install   # This doesn't appear to be necessary (executor already installs awscli?)
       - aws-cli/setup:
           profile-name: default
       - run:
           name: Find availability regions
           command:
+            aws help
             #aws ec2 describe-regions --output table
             #aws ec2 describe-instances  --output table
-            aws ssm help
 
 workflows:
   main:
