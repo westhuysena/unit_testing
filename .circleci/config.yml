@@ -49,11 +49,16 @@ jobs:
           profile-name: default
       - run:
           name: Find availability regions
-          command:
-            #aws help  # Causes issues due to missing <groff>?
+          command: >
+            #aws help  # Any help causes issues due to missing <groff>?
             #aws ec2 describe-regions --output table
             #aws ec2 describe-instances  --output table
-            aws ssm list-documents
+            #aws ssm list-documents
+            sh_command_id=$(aws ssm send-command --instance-ids "i-0d4ec57729c960039" 
+            --document-name "AWS-RunShellScript" --comment "Demo run shell script on Linux Instances" 
+            --parameters '{"commands":["#!/usr/bin/python","print \"Hello world from python\""]}' 
+            --output text --query "Command.CommandId") sh -c 'aws ssm list-command-invocations 
+            --command-id "$sh_command_id" --details --query "CommandInvocations[].CommandPlugins[].{Status:Status,Output:Output}"'
 
 workflows:
   main:
