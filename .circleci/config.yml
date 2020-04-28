@@ -44,16 +44,18 @@ jobs:
   aws-cli-setup:
     executor: aws-cli/default
     steps:
-      - aws-cli/install
-      - aws-cli/setup
-      #    profile-name: example
+      #- aws-cli/install
+      - aws-cli/setup:
+          profile-name: default
       - run:
           name: Find availability regions
           command:
-            aws ec2 availability-regions
+            aws ec2 describe-regions
 
 workflows:
   main:
     jobs:
       - build
-      - aws-cli-setup
+      - aws-cli-setup:
+          requires:
+             - build
