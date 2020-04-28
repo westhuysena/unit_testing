@@ -4,6 +4,7 @@ orbs:
   # Use the Python orb, which provides access to pre-defined common job steps for Python builds.
   # For list of available steps, see: https://circleci.com/orbs/registry/orb/circleci/python
   python: circleci/python@0.2.1     # Numbers behind @ pins the version of the orb.
+  aws-cli: circleci/aws-cli@1.0.0
 
 jobs:
   build:
@@ -34,8 +35,25 @@ jobs:
             docker build -t avdwest/pytest_image:2.0 .
             echo $DOCKER_PWD | docker login -u $DOCKER_LOGIN --password-stdin
             docker push avdwest/pytest_image:2.0
+      #- run:
+      #    name: Deploy Over SSH (using Docker on AWS)
+      #    command: |
+      #      #ssh $SSH_USER$SSH_HOST "<remote deploy command>"
+      #      #ssh -o StrictHostKeyChecking=no root@hello.dpunks.org "/bin/bash ./deploy_app.sh ariv3ra/$IMAGE_NAME:$TAG"
+      #      ssh root@hello.dpunks.org "/bin/bash ./deploy_app.sh avdwest/pytest_image:2.0"
+  aws-cli-setup:
+    executor: aws-cli/default
+    steps:
+      - aws-cli/install
+      - aws-cli/setup
+      #    profile-name: example
+      - run:
+          name: Find availability regions
+          command:
+            aws ec2 availability-regions
 
 workflows:
   main:
     jobs:
       - build
+      - aws-cli-setup
