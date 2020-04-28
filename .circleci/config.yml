@@ -48,9 +48,15 @@ jobs:
       - aws-cli/setup:
           profile-name: default
       - run:
+          # Remember to set the environment variable TERM = xterm
           name: Send shell command to AWS
-          command:
-            aws ec2 describe-regions --output table
+          command: >
+            sh_command_id=$(aws ssm send-command --instance-ids i-0d4ec57729c960039 
+            --document-name "AWS-RunShellScript" --comment "Demo run shell script on Linux Instances" 
+            --parameters '{"commands":["#!/usr/bin/python","print \"Hello world from python\""]}' 
+            --output text --query "Command.CommandId") sh -c 'aws ssm list-command-invocations 
+            --command-id "$sh_command_id" --details --query "CommandInvocations[].CommandPlugins[].{Status:Status,Output:Output}"'
+
             
 workflows:
   main:
