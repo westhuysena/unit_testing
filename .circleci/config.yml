@@ -53,10 +53,10 @@ jobs:
           command: >
             aws ssm send-command --document-name "AWS-RunShellScript" --document-version "1" 
             --targets '[{"Key":"InstanceIds","Values":["i-05a3d31502530e9d1"]}]' 
-            --parameters '{"workingDirectory":[""],"executionTimeout":["3600"],"commands":["python --version"]}' 
-            --comment "Checking the version of Python" 
+            --parameters '{"workingDirectory":[""],"executionTimeout":["3600"],"commands":["./deploy_app.sh avdwest/pytest_image:2.0"]}' 
+            --comment "Deploy Docker container from image avdwest/pytest_image:2.0" 
             --timeout-seconds 600 --max-concurrency "50" --max-errors "0" --region us-east-1
-            
+
 workflows:
   main:
     jobs:
