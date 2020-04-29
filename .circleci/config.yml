@@ -50,8 +50,12 @@ jobs:
       - run:
           # Remember to set the environment variable TERM = xterm
           name: Send shell command to AWS
-          command:
-            aws ssm describe-document --name "AWS-RunShellScript" --query "[Document.Name,Document.Description]"
+          command: >
+            aws ssm send-command --document-name "AWS-RunShellScript" --document-version "1" 
+            --targets '[{"Key":"InstanceIds","Values":["i-05a3d31502530e9d1"]}]' 
+            --parameters '{"workingDirectory":[""],"executionTimeout":["3600"],"commands":["python --version"]}' 
+            --comment "Checking the version of Python" 
+            --timeout-seconds 600 --max-concurrency "50" --max-errors "0" --region us-east-1
             
 workflows:
   main:
