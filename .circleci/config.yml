@@ -7,7 +7,7 @@ orbs:
   aws-cli: circleci/aws-cli@1.0.0
 
 jobs:
-  build:
+  build_test:
     #executor: python/default      # Orb pre-defined step: Load docker image (equivalent to next 2 lines)
     docker: # Run the steps with Docker. CircleCI Python images available at: https://hub.docker.com/r/circleci/python/
       - image: circleci/python:3.6.4
@@ -35,12 +35,6 @@ jobs:
             docker build -t avdwest/pytest_image:2.0 .
             echo $DOCKER_PWD | docker login -u $DOCKER_LOGIN --password-stdin
             docker push avdwest/pytest_image:2.0
-      #- run:
-      #    name: Deploy Over SSH (using Docker on AWS)
-      #    command: |
-      #      #ssh $SSH_USER$SSH_HOST "<remote deploy command>"
-      #      #ssh -o StrictHostKeyChecking=no root@hello.dpunks.org "/bin/bash ./deploy_app.sh ariv3ra/$IMAGE_NAME:$TAG"
-      #      ssh root@hello.dpunks.org "/bin/bash ./deploy_app.sh avdwest/pytest_image:2.0"
   deploy_aws:
     executor: aws-cli/default
     steps:
@@ -55,14 +49,15 @@ jobs:
           # Remember to set the environment variable TERM = xterm
           name: Send shell command to AWS
           command:
-             # ssh -o StrictHostKeyChecking=no ec2-user@54.165.68.250 -y "echo python --version > log.txt" # Works, but not secure
+             #ssh $SSH_USER$SSH_HOST "<remote deploy command>"
+             # ssh -o StrictHostKeyChecking=no ec2-user@54.165.68.250 -y "echo python --version > log.txt" # Works, but not secure. Not needed when using ssh-keyscan line.
              #ssh ec2-user@54.165.68.250 "echo python --version > log.txt"
-             ssh ec2-user@54.165.68.250 "./deploy_app.sh avdwest/pytest_image:2.0"
+             ssh ec2-user@54.165.68.250 "./deploy_app.sh avdwest/pytest_image:2.0" # Must have fingerprint and ss-keyscan lines.
 
 workflows:
   main:
     jobs:
-      - build
+      - build_test
       - deploy_aws:
           requires:
-             - build
+             - build_test
