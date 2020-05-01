@@ -49,7 +49,7 @@ jobs:
           profile-name: default
       - add_ssh_keys:
           fingerprints:
-            - "dc:69:06:bb:76:fe:41:06:3f:de:ce:3a:84:77:45:e5" # This is from the CircleCI Console/SSH Permissions
+            - dc:69:06:bb:76:fe:41:06:3f:de:ce:3a:84:77:45:e5 # This is from the CircleCI Console/SSH Permissions
       - run:
           # Remember to set the environment variable TERM = xterm
           name: Send shell command to AWS
