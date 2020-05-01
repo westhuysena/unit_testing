@@ -56,7 +56,8 @@ jobs:
           name: Send shell command to AWS
           command:
              # ssh -o StrictHostKeyChecking=no ec2-user@54.165.68.250 -y "echo python --version > log.txt" # Works, but not secure
-             ssh ec2-user@54.165.68.250 -y "echo python --version > log.txt"
+             #ssh ec2-user@54.165.68.250 "echo python --version > log.txt"
+             ssh ec2-user@54.165.68.250 "./deploy_app.sh avdwest/pytest_image:2.0"
 
 workflows:
   main:
