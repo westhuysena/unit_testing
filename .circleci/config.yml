@@ -47,15 +47,14 @@ jobs:
       #- aws-cli/install   # This doesn't appear to be necessary (executor already installs awscli?)
       - aws-cli/setup:
           profile-name: default
+      - add_ssh_keys:
+          fingerprints:
+            - "92:4a:07:23:ae:0a:d4:ba:41:2b:d5:9d:6d:03:9a:92:13:cf:31:f5"
       - run:
           # Remember to set the environment variable TERM = xterm
           name: Send shell command to AWS
-          command: >
-            aws ssm send-command --document-name "AWS-RunShellScript" --document-version "1" 
-            --targets '[{"Key":"InstanceIds","Values":["i-05a3d31502530e9d1"]}]' 
-            --parameters '{"workingDirectory":[""],"executionTimeout":["3600"],"commands":["./deploy_app.sh avdwest/pytest_image:2.0"]}' 
-            --comment "Deploy Docker container from image avdwest/pytest_image:2.0" 
-            --timeout-seconds 600 --max-concurrency "50" --max-errors "0" --region us-east-1
+          command:
+             ssh ec2-user@54.209.121.141 "echo python --version > log.txt"
 
 workflows:
   main:
