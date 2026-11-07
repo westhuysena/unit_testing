@@ -19,6 +19,7 @@ def divide(x, y):
       raise ValueError('Cannot divide by zero!')
    return x / y
 
+# Main code
 print('Hello from calc!')
 print('1 + 1 = '+str(add(1,1)))
 print('1 - 1 = '+str(subtract(1,1)))
